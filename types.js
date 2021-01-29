@@ -10,6 +10,7 @@ module.exports = {
   ...typeOfClass`atom`('symbol'),
   ...typeOfClass`atom`('boolean'),
   ...typeOfClass`atom`('operator'),
+  ...typeOfClass`atom`('lambda'),
   ...typeOfClass`atom`('definition'),
   ...typeOfClass`atom`('void'),
   ...typeOfClass`reference`('variable'),

@@ -13,25 +13,27 @@ module.exports = {
     return (([,b]) => b)(value);
   },
   print: ({ value }) => (console.log(value), types.void()),
-  lambda: () => {
-    throw new Error('Unimplemented');
-  },
+  lambda: (...args) => types.lambda({
+    bindings: args.slice(0, args.length - 1),
+    expression: args.slice(-1)[0],
+    value: '[lambda]',
+  }),
   eq: ({ __class: ac, value: a }, { __class: bc, value: b }) => {
     if (ac !== 'atom' || bc !== 'atom') throw new Error(`Cannot compare ${ac} and ${bc}`);
 
     return types.boolean({ value: a === b });
   },
   ...[
-    ['+', 'add', (a, b) => a + b],
-    ['*', 'multiply', (a, b) => a * b],
-  ].reduce((keywords, [op, name, apply]) => ({
+    ['+', 'add', (a, b) => a + b, 0],
+    ['*', 'multiply', (a, b) => a * b, 1],
+  ].reduce((keywords, [op, name, apply, init]) => ({
     ...keywords,
     [op]: (...args) => types.number({
       value: args.reduce((acc, { __type, value }) => {
         if (__type !== 'number') throw new Error(`Can't ${name} ${__type}`);
 
         return apply(acc, value);
-      }, 0)
+      }, init)
     }),
   }), {}),
   ...[
