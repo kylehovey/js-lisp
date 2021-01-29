@@ -23,7 +23,7 @@ module.exports = expr => {
     apply: keywords[expr],
   });
 
-  if (expr === 'let') return types.definition();
+  if (expr === 'set') return types.definition();
 
   return types.variable({ identifier: expr });
 };
