@@ -1,12 +1,18 @@
 const types = require('./types');
 const lex = require('./lexer');
-let context = {};
+let globalContext = {};
 
-const evaluate = shard => {
+const evaluate = (shard, context) => {
   if (shard.__class === 'atom') return shard;
 
   if (shard.__type === 'variable') {
-    if (!(shard.identifier in context)) throw new Error(`${shard.identifier} not defined`);
+    if (
+      !(shard.identifier in globalContext) && !(shard.identifier in context)
+    ) throw new Error(`${shard.identifier} not defined`);
+
+    if (shard.identifier in globalContext) {
+      return globalContext[shard.identifier];
+    }
 
     return context[shard.identifier];
   }
@@ -19,7 +25,7 @@ const evaluate = shard => {
 
       if (second.__type !== 'variable') throw new Error(`Cannot assign to ${second.__type}`);
 
-      context[second.identifier] = evaluate(third);
+      globalContext[second.identifier] = evaluate(third, context);
 
       return types.void();
     }
@@ -60,18 +66,20 @@ const evaluate = shard => {
           throw new Error(`Expected ${variable.__type} to be a variable`);
         }
 
-        context[variable.identifier] = value;
+        newScope[variable.identifier] = value;
       });
 
-      return evaluate(evaluated.expression);
+      return evaluate(evaluated.expression, newScope);
     }
 
-    return (([last]) => last)(shard.nodes.map(evaluate).slice(-1));
+    return (([last]) => last)(
+      shard.nodes.map(_ => evaluate(_, context)).slice(-1)
+    );
   }
 };
 
 module.exports = ([program]) => {
-  context = {};
+  globalContext = {};
 
-  return evaluate(lex(program)).value;
+  return evaluate(lex(program), {}).value;
 };
