@@ -45,6 +45,7 @@ const evaluate = (shard) => {
 
 module.exports = program => {
   const ast = lex(program);
+  context = {};
 
   return evaluate(ast).value;
 };
