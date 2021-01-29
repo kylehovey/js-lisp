@@ -1,6 +1,5 @@
 const evaluate = require('./evaluate');
 
-// 3
 const result = evaluate(`
 (
   (let x 100)
