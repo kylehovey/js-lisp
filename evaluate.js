@@ -16,8 +16,9 @@ const evaluate = (shard) => {
 
   if (shard.__type === 'expression') {
     const [ first, ...rest ] = shard.nodes;
+    const evaluated = evaluate(first);
 
-    if (first.__type === 'definition') {
+    if (evaluated.__type === 'definition') {
       const [ second, third ] = rest;
 
       if (second.__type !== 'variable') throw new Error(
@@ -29,7 +30,6 @@ const evaluate = (shard) => {
       return { __type: 'void' };
     }
 
-    const evaluated = evaluate(first);
     const rhs = rest.map(evaluate);
 
     if (evaluated.__type === 'operator') {

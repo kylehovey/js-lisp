@@ -28,12 +28,12 @@ module.exports = expr => {
 
   if (expr === 'let') return {
     __type: 'definition',
-    __class: 'meta',
+    __class: 'atom',
   }
 
   return {
     __type: 'variable',
-    __class: 'meta',
+    __class: 'reference',
     identifier: expr,
   };
 };
