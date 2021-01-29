@@ -43,7 +43,7 @@ const evaluate = (shard) => {
   }
 };
 
-module.exports = program => {
+module.exports = ([program]) => {
   const ast = lex(program);
   context = {};
 
