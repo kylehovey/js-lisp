@@ -2,10 +2,15 @@ const evaluate = require('./evaluate');
 
 // 3
 const result = evaluate(`
-(car
-  (cons
-    (/ 3 2 2)
-    (+ 1 1 1)
+(
+  (let x 100)
+  (let y (+ 3 4))
+  (
+  car
+    (cons
+      (/ y x)
+      (+ 1 1 x)
+    )
   )
 )
 `);

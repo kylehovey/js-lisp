@@ -1,33 +1,44 @@
 const lex = require('./lexer');
+const context = {};
 
 const evaluate = (shard) => {
   if (shard.__class === 'atom') return shard;
+  if (shard.__type === 'operator') return shard;
 
-  if (shard.__class === 'meta') {
-    if (shard.__type === 'operator') return shard;
-
-    if (shard.__type === 'variable') {
-      throw new Error('Not implemented');
+  if (shard.__type === 'variable') {
+    if (shard.identifier in context) {
+      return context[shard.identifier];
+    } else {
+      throw new Error(
+        `Variable ${shard.identifier} not defined`
+      );
     }
   }
 
-  if (shard.__class === 'structure') {
-    if (shard.__type === 'expression') {
-      const [ first, ...rest ] = shard.nodes;
+  if (shard.__type === 'expression') {
+    const [ first, ...rest ] = shard.nodes;
 
-      const { apply } = first.__type === 'operator' ?  first : (
-        () => {
-          const evaluated = evaluate(first);
+    if (first.__type === 'definition') {
+      const [ second, third ] = rest;
 
-          if (evaluated.__type !== 'operator') throw new Error(
-            `Cannot use ${evaluated.__type} as an operator`
-          );
+      if (second.__type !== 'variable') throw new Error(
+        `Cannot assign to ${second.__type}`
+      );
 
-          return evaluated;
-        }
-      )();
+      context[second.identifier] = evaluate(third);
 
-      return apply(...rest.map(evaluate));
+      return { __type: 'void' };
+    }
+
+    const evaluated = evaluate(first);
+    const rhs = rest.map(evaluate);
+
+    if (evaluated.__type === 'operator') {
+      return evaluated.apply(...rhs);
+    } else {
+      const [last] = rhs.slice(-1);
+
+      return last;
     }
   }
 };

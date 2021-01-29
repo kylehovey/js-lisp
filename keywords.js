@@ -24,9 +24,6 @@ module.exports = {
   print: ({ value }) => {
     console.log(value);
   },
-  let: () => {
-    throw new Error('Unimplemented');
-  },
   lambda: () => {
     throw new Error('Unimplemented');
   },

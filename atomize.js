@@ -26,9 +26,14 @@ module.exports = expr => {
     apply: keywords[expr],
   };
 
+  if (expr === 'let') return {
+    __type: 'definition',
+    __class: 'meta',
+  }
+
   return {
     __type: 'variable',
     __class: 'meta',
-    reference: expr,
+    identifier: expr,
   };
 };
