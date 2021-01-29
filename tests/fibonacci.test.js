@@ -1,5 +1,5 @@
+const lisp = require('../');
 const { test } = require('./lib');
-const lisp = require('../evaluate');
 
 test("Fibonacci").expect(
   lisp`(
