@@ -1,7 +1,7 @@
 const keywords = require('./keywords');
 
 module.exports = expr => {
-  if (/^\d*$/.test(expr)) return {
+  if (/^\d+(?:\.|)(?:\d+|)$/.test(expr)) return {
     __class: 'atom',
     __type: 'number',
     value: parseFloat(expr),
