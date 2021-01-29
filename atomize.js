@@ -7,7 +7,9 @@ module.exports = expr => {
   }
 
   if (/^".*"$/.test(expr)) {
-    return types.string({ value: expr.toString() });
+    return types.string({
+      value: (([,inner]) => inner)(expr.match(/^"(.*)"$/))
+    });
   }
 
   if (/^'.*$/.test(expr)) {
