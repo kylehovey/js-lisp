@@ -1,3 +1,4 @@
+const types = require('./types');
 const lex = require('./lexer');
 let context = {};
 
@@ -27,7 +28,7 @@ const evaluate = (shard) => {
 
       context[second.identifier] = evaluate(third);
 
-      return { __type: 'void' };
+      return types.void();
     }
 
     const rhs = rest.map(evaluate);

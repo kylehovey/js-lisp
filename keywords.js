@@ -1,3 +1,5 @@
+const types = require('./types');
+
 module.exports = {
   cons: (a, b) => ({
     __type: 'cons',
@@ -24,7 +26,7 @@ module.exports = {
   print: ({ value }) => {
     console.log(value);
 
-    return { __type: 'void' };
+    return types.void();
   },
   lambda: () => {
     throw new Error('Unimplemented');
@@ -34,15 +36,9 @@ module.exports = {
       throw new Error(`Cannot compare ${ac} and ${bc}`);
     }
 
-    return {
-      __class: 'atom',
-      __type: 'boolean',
-      value: a === b,
-    };
+    return types.boolean({ value: a === b });
   },
-  ['+']: (...args) => ({
-    __class: 'atom',
-    __type: 'number',
+  ['+']: (...args) => types.number({
     value: args.reduce(
       (acc, { __type, value }) => {
         if (__type !== 'number') {
@@ -70,15 +66,9 @@ module.exports = {
       first,
     );
 
-    return {
-      __class: 'atom',
-      __type: 'number',
-      value: result,
-    };
+    return types.number({ value: result });
   },
-  ['*']: (...args) => ({
-    __class: 'atom',
-    __type: 'number',
+  ['*']: (...args) => types.number({
     value: args.reduce(
       (acc, { __type, value }) => {
         if (__type !== 'number') {
@@ -106,10 +96,6 @@ module.exports = {
       value,
     );
 
-    return {
-      __class: 'atom',
-      __type: 'number',
-      value: result,
-    };
+    return types.number({ value: result });
   },
 };

@@ -1,45 +1,29 @@
+const types = require('./types');
 const keywords = require('./keywords');
 
 module.exports = expr => {
-  if (/^\d+(?:\.|)(?:\d+|)$/.test(expr)) return {
-    __class: 'atom',
-    __type: 'number',
+  if (/^\d+(?:\.|)(?:\d+|)$/.test(expr)) return types.number({
     value: parseFloat(expr),
-  };
+  });
 
-  if (/^".*"$/.test(expr)) return {
-    __class: 'atom',
-    __type: 'string',
+  if (/^".*"$/.test(expr)) return types.string({
     value: expr.toString(),
-  };
+  });
 
-  if (/^'.*$/.test(expr)) return {
-    __class: 'atom',
-    __type: 'symbol',
+  if (/^'.*$/.test(expr)) return types.symbol({
     value: expr.slice(1, expr.length),
-  };
+  });
 
-  if (/^(?:true|false)$/.test(expr)) return {
-    __class: 'atom',
-    __type: 'boolean',
+  if (/^(?:true|false)$/.test(expr)) return types.boolean({
     value: expr === 'true',
-  };
+  });
 
-  if (expr in keywords) return {
-    __class: 'atom',
-    __type: 'operator',
+  if (expr in keywords) return types.operator({
     op: expr,
     apply: keywords[expr],
-  };
+  });
 
-  if (expr === 'let') return {
-    __class: 'atom',
-    __type: 'definition',
-  }
+  if (expr === 'let') return types.definition();
 
-  return {
-    __class: 'reference',
-    __type: 'variable',
-    identifier: expr,
-  };
+  return types.variable({ identifier: expr });
 };

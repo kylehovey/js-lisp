@@ -1,3 +1,4 @@
+const types = require('./types');
 const atomize = require('./atomize');
 
 const given = (bind => expr => ({
@@ -30,11 +31,7 @@ const delineate = expression => given(expression)
 module.exports = (string) => {
   const exprs = delineate(string);
   const stack = [];
-  const root = {
-    __type: 'root',
-    __class: 'structure',
-    nodes: [],
-  };
+  const root = types.root({ nodes: [] });
 
   let cursor = root;
 
@@ -43,11 +40,7 @@ module.exports = (string) => {
 
     if (expr === '(') {
       stack.push(cursor);
-      cursor.nodes.push(cursor = {
-        __type: 'expression',
-        __class: 'structure',
-        nodes: []
-      });
+      cursor.nodes.push(cursor = types.expression({ nodes: [] }));
     } else if (expr === ')') {
       cursor = stack.pop();
     } else {
