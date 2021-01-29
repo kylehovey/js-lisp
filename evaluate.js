@@ -9,9 +9,7 @@ const evaluate = shard => {
     if (shard.identifier in context) {
       return context[shard.identifier];
     } else {
-      throw new Error(
-        `Variable ${shard.identifier} not defined`
-      );
+      throw new Error(`Variable ${shard.identifier} not defined`);
     }
   }
 
@@ -22,9 +20,7 @@ const evaluate = shard => {
     if (evaluated.__type === 'definition') {
       const [ second, third ] = rest;
 
-      if (second.__type !== 'variable') throw new Error(
-        `Cannot assign to ${second.__type}`
-      );
+      if (second.__type !== 'variable') throw new Error(`Cannot assign to ${second.__type}`);
 
       return context[second.identifier] = evaluate(third);
     }

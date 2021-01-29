@@ -12,15 +12,13 @@ const given = (bind => expr => ({
         ...acc.length ? [char] : [],
         shard,
       ],
-      [],))
+      []))
     .reduce((acc, split) => [...acc, ...split])
     .filter(expr => expr.length !== 0)
   ),
-}))(
-  x => ([method]) => f => ({
-    [method]: a => given(f(a)((Array.isArray(x) ? x : [x]))),
-  })
-);
+}))(x => ([method]) => f => ({
+  [method]: a => given(f(a)((Array.isArray(x) ? x : [x]))),
+}));
 
 const delineate = expression => given(expression)
   .splitAround('(').splitAround(')')
