@@ -27,6 +27,17 @@ module.exports = {
   lambda: () => {
     throw new Error('Unimplemented');
   },
+  eq: ({ __class: ac, value: a }, { __class: bc, value: b }) => {
+    if (ac !== 'atom' || bc !== 'atom') {
+      throw new Error(`Cannot compare ${ac} and ${bc}`);
+    }
+
+    return {
+      __class: 'atom',
+      __type: 'boolean',
+      value: a === b,
+    };
+  },
   ['+']: (...args) => ({
     __class: 'atom',
     __type: 'number',

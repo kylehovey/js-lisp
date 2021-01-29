@@ -8,7 +8,7 @@ const result = evaluate(`
     (cons
       (/ y x)
       (cons
-        (+ 1 1 x)
+        (eq "test" "test")
         '?
       )))
 )

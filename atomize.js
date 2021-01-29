@@ -19,6 +19,12 @@ module.exports = expr => {
     value: expr.slice(1, expr.length),
   };
 
+  if (/^(?:true|false)$/.test(expr)) return {
+    __class: 'atom',
+    __type: 'boolean',
+    value: expr === 'true',
+  };
+
   if (expr in keywords) return {
     __class: 'atom',
     __type: 'operator',
