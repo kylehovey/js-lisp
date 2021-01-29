@@ -29,13 +29,25 @@ const evaluate = shard => {
         return first.apply(...rest);
       }
 
-      return first.apply(...rest.map(evaluate));
+      if (first.op === 'if') {
+        const [predicate, ifTrue, ifFalse] = rest;
+        const winner = first.apply(
+          evaluate(predicate, context),
+          ifTrue,
+          ifFalse,
+        );
+
+        return evaluate(winner, context);
+      }
+
+      return first.apply(...rest.map(_ => evaluate(_, context)));
     }
 
-    const evaluated = evaluate(first);
+    const evaluated = evaluate(first, context);
 
     if (evaluated.__type === 'lambda') {
-      const bindingValues = rest.map(evaluate);
+      const newScope = {};
+      const bindingValues = rest.map(_ => evaluate(_, context));
 
       if (bindingValues.length !== evaluated.bindings.length) {
         throw new Error(`Expected ${evaluated.bindings.length} arguments`);

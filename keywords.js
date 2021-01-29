@@ -23,6 +23,13 @@ module.exports = {
 
     return types.boolean({ value: a === b });
   },
+  if: ({ __type, value }, ifTrue, ifFalse) => {
+    if (__type !== 'boolean') {
+      throw new Error(`Attempting to branch on ${__type}`);
+    }
+
+    return value ? ifTrue : ifFalse;
+  },
   ...[
     ['+', 'add', (a, b) => a + b, 0],
     ['*', 'multiply', (a, b) => a * b, 1],
