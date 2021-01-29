@@ -1,10 +1,7 @@
 const types = require('./types');
 
 module.exports = {
-  cons: (a, b) => ({
-    __type: 'cons',
-    value: [a,b],
-  }),
+  cons: (a, b) => types.cons({ value: [a,b] }),
   car: ({ __type, value }) => {
     if (__type !== 'cons') {
       throw new Error('Tried to car without a cons');

@@ -6,7 +6,7 @@ module.exports = {
   ...typeOfClass`structure`('root'),
   ...typeOfClass`structure`('expression'),
   ...typeOfClass`atom`('number'),
-  ...typeOfClass`atom`('number'),
+  ...typeOfClass`atom`('cons'),
   ...typeOfClass`atom`('string'),
   ...typeOfClass`atom`('symbol'),
   ...typeOfClass`atom`('boolean'),
