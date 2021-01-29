@@ -4,13 +4,14 @@ const result = evaluate(`
 (
   (let x 100)
   (let y (+ 3 4))
-  (cdr
-    (cons
-      (/ y x)
+  (car
+    (cdr
       (cons
-        (eq "test" "test")
-        '?
-      )))
+        (let z (/ y x))
+        (cons
+          (eq z 0.07)
+          '?
+        ))))
 )
 `);
 
