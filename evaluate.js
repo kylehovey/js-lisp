@@ -3,7 +3,6 @@ let context = {};
 
 const evaluate = (shard) => {
   if (shard.__class === 'atom') return shard;
-  if (shard.__type === 'operator') return shard;
 
   if (shard.__type === 'variable') {
     if (shard.identifier in context) {

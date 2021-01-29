@@ -21,7 +21,7 @@ module.exports = expr => {
 
   if (expr in keywords) return {
     __type: 'operator',
-    __class: 'meta',
+    __class: 'atom',
     op: expr,
     apply: keywords[expr],
   };
