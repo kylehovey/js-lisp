@@ -2,7 +2,7 @@ const types = require('./types');
 const lex = require('./lexer');
 let context = {};
 
-const evaluate = (shard) => {
+const evaluate = shard => {
   if (shard.__class === 'atom') return shard;
 
   if (shard.__type === 'variable') {
