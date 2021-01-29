@@ -10,7 +10,7 @@ module.exports = expr => {
   if (/^".*"$/.test(expr)) return {
     __class: 'atom',
     __type: 'string',
-    value: parseFloat(expr),
+    value: expr.toString(),
   };
 
   if (/^'.*$/.test(expr)) return {
