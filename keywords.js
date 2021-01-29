@@ -28,7 +28,7 @@ module.exports = {
     throw new Error('Unimplemented');
   },
   ['+']: (...args) => ({
-    __class: 'primitive',
+    __class: 'atom',
     __type: 'number',
     value: args.reduce(
       (acc, { __type, value }) => {
@@ -58,13 +58,13 @@ module.exports = {
     );
 
     return {
-      __class: 'primitive',
+      __class: 'atom',
       __type: 'number',
       value: result,
     };
   },
   ['*']: (...args) => ({
-    __class: 'primitive',
+    __class: 'atom',
     __type: 'number',
     value: args.reduce(
       (acc, { __type, value }) => {
@@ -94,7 +94,7 @@ module.exports = {
     );
 
     return {
-      __class: 'primitive',
+      __class: 'atom',
       __type: 'number',
       value: result,
     };

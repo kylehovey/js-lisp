@@ -2,38 +2,38 @@ const keywords = require('./keywords');
 
 module.exports = expr => {
   if (/^\d*$/.test(expr)) return {
-    __type: 'number',
     __class: 'atom',
+    __type: 'number',
     value: parseFloat(expr),
   };
 
   if (/^".*"$/.test(expr)) return {
-    __type: 'string',
     __class: 'atom',
+    __type: 'string',
     value: parseFloat(expr),
   };
 
   if (/^'.*$/.test(expr)) return {
-    __type: 'symbol',
     __class: 'atom',
+    __type: 'symbol',
     value: expr,
   };
 
   if (expr in keywords) return {
-    __type: 'operator',
     __class: 'atom',
+    __type: 'operator',
     op: expr,
     apply: keywords[expr],
   };
 
   if (expr === 'let') return {
-    __type: 'definition',
     __class: 'atom',
+    __type: 'definition',
   }
 
   return {
-    __type: 'variable',
     __class: 'reference',
+    __type: 'variable',
     identifier: expr,
   };
 };
