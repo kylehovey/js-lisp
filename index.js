@@ -2,17 +2,17 @@ const evaluate = require('./evaluate');
 
 const result = evaluate(`
 (
-  (let x 100)
+  (let x (car (cons 100 100)))
   (let y (+ 3 4))
-  (car
-    (cdr
-      (cons
-        (let z (/ y x))
+  (let result
+    (car
+      (cdr
         (cons
-          (eq z 0.07)
-          '?
-        ))))
+          (let z (/ y x))
+          (cons
+            (eq z 0.07)
+            '?
+          )))))
+  (print result)
 )
 `);
-
-console.log(result);

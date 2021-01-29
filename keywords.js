@@ -23,6 +23,8 @@ module.exports = {
   },
   print: ({ value }) => {
     console.log(value);
+
+    return { __type: 'void' };
   },
   lambda: () => {
     throw new Error('Unimplemented');
