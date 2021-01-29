@@ -6,18 +6,15 @@ const evaluate = shard => {
   if (shard.__class === 'atom') return shard;
 
   if (shard.__type === 'variable') {
-    if (shard.identifier in context) {
-      return context[shard.identifier];
-    } else {
-      throw new Error(`Variable ${shard.identifier} not defined`);
-    }
+    if (!(shard.identifier in context)) throw new Error(`${shard.identifier} not defined`);
+
+    return context[shard.identifier];
   }
 
   if (shard.__type === 'expression') {
     const [ first, ...rest ] = shard.nodes;
-    const evaluated = evaluate(first);
 
-    if (evaluated.__type === 'definition') {
+    if (first.__type === 'definition') {
       const [ second, third ] = rest;
 
       if (second.__type !== 'variable') throw new Error(`Cannot assign to ${second.__type}`);
@@ -25,21 +22,14 @@ const evaluate = shard => {
       return context[second.identifier] = evaluate(third);
     }
 
-    const rhs = rest.map(evaluate);
+    if (first.__type === 'operator') return first.apply(...rest.map(evaluate));
 
-    if (evaluated.__type === 'operator') {
-      return evaluated.apply(...rhs);
-    } else {
-      const [last] = rhs.slice(-1);
-
-      return last;
-    }
+    return (([last]) => last)(shard.nodes.map(evaluate).slice(-1));
   }
 };
 
 module.exports = ([program]) => {
-  const ast = lex(program);
   context = {};
 
-  return evaluate(ast).value;
+  return evaluate(lex(program)).value;
 };

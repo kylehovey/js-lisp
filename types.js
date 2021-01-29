@@ -3,7 +3,6 @@ const typeOfClass = ([__class]) => __type => ({
 });
 
 module.exports = {
-  ...typeOfClass`structure`('root'),
   ...typeOfClass`structure`('expression'),
   ...typeOfClass`atom`('number'),
   ...typeOfClass`atom`('cons'),
@@ -12,6 +11,6 @@ module.exports = {
   ...typeOfClass`atom`('boolean'),
   ...typeOfClass`atom`('operator'),
   ...typeOfClass`atom`('definition'),
+  ...typeOfClass`atom`('void'),
   ...typeOfClass`reference`('variable'),
-  ...typeOfClass`void`('void'),
 };

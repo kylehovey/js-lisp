@@ -29,7 +29,7 @@ const delineate = expression => given(expression)
 module.exports = (string) => {
   const exprs = delineate(string);
   const stack = [];
-  const root = types.root({ nodes: [] });
+  const root = types.expression({ nodes: [] });
 
   let cursor = root;
 
@@ -46,7 +46,5 @@ module.exports = (string) => {
     }
   }
 
-  const [ast] = root.nodes;
-
-  return ast;
+  return (([ast]) => ast)(root.nodes);
 };
