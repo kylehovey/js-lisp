@@ -1,5 +1,5 @@
 const lex = require('./lexer');
-const context = {};
+let context = {};
 
 const evaluate = (shard) => {
   if (shard.__class === 'atom') return shard;
