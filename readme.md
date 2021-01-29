@@ -5,3 +5,4 @@
 - [ ] Implement Closures
 - [ ] Handle Spaces in Strings
 - [ ] Throw Strings Instead of Errors
+* [x] Add Tests
