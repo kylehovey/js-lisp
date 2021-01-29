@@ -1,4 +1,4 @@
-const parse = require('./parse');
+const lex = require('./lexer');
 
 const evaluate = (shard) => {
   if (shard.__class === 'atom') return shard;
@@ -33,7 +33,7 @@ const evaluate = (shard) => {
 };
 
 module.exports = program => {
-  const ast = parse(program);
+  const ast = lex(program);
 
   return evaluate(ast).value;
 };
