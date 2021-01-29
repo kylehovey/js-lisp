@@ -16,7 +16,7 @@ module.exports = expr => {
   if (/^'.*$/.test(expr)) return {
     __class: 'atom',
     __type: 'symbol',
-    value: expr,
+    value: expr.slice(1, expr.length),
   };
 
   if (expr in keywords) return {
