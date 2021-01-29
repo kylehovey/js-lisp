@@ -26,9 +26,7 @@ const evaluate = (shard) => {
         `Cannot assign to ${second.__type}`
       );
 
-      context[second.identifier] = evaluate(third);
-
-      return types.void();
+      return context[second.identifier] = evaluate(third);
     }
 
     const rhs = rest.map(evaluate);
