@@ -32,7 +32,10 @@ const evaluate = (shard, context) => {
 
     if (first.__type === 'operator') {
       if (first.op === 'lambda') {
-        return first.apply(...rest);
+        return ({
+          ...first.apply(...rest),
+          closures: {...globalContext, ...context},
+        });
       }
 
       if (first.op === 'if') {
@@ -69,7 +72,10 @@ const evaluate = (shard, context) => {
         newScope[variable.identifier] = value;
       });
 
-      return evaluate(evaluated.expression, newScope);
+      return evaluate(evaluated.expression, {
+        ...evaluated.closures,
+        ...newScope,
+      });
     }
 
     return (([last]) => last)(
