@@ -14,3 +14,11 @@ test("dyadic lambda").expect(
     (f 30 3)
   )`
 ).toBe(33);
+
+test("lambda calling lambda").expect(
+  lisp`(
+    (set f (lambda x y (+ x y)))
+    (set g (lambda h x (h x x)))
+    (g f 30)
+  )`
+).toBe(60);
